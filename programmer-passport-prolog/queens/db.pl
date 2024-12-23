@@ -15,10 +15,18 @@ safe([Queen|Queens]) :-
     safe(Queens).
 
 queens(Queens) :-
-    length(Queens, 8),
-    Queens ins 1..8,
+    length(Queens, Length),
+    Queens ins 1..Length,
     all_different(Queens),
-    safe(Queens).
+    safe(Queens),
+    print_queens(Queens).
+
+print_queens([]).
+print_queens([Queen|Queens]) :-
+    (integer(Queen),
+    TabSpaces is (Queen - 1) * 4,
+    format("~t~*|~w~n", [TabSpaces, 'Q']));
+    print_queens(Queens).
     
 different_diagonals(Queen1, Queen2, Distance) :- % Distance = column diff
     abs(Queen1 - Queen2) #\= Distance.
