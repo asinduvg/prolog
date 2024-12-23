@@ -1,3 +1,5 @@
+:- use_module(library(aggregate)).
+
 edge(a, b).
 edge(a, c).
 edge(b, c).
@@ -21,4 +23,14 @@ go(From, To, Seen, Path) :-
 path(From, To, Path) :-
     go(From, To, [From], Result),
     reverse(Path, Result).
+
+path_with_length(From, To, Path, Length) :-
+    path(From, To, Path),
+    length(Path, Length).
+
+shortest_path(From, To, Path, Length) :-
+    aggregate(
+        min(L, P), 
+        path_with_length(From, To, P, L), 
+        min(Length, Path)).
     
